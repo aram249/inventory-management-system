@@ -1,9 +1,16 @@
 package com.ims.app.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
 public class Product {
 
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String productName;
     private String manufacturer;
     private String model;
@@ -16,7 +23,7 @@ public class Product {
     }
 
     // constructor with arguments
-    public Product(String id, String productName, String manufacturer, String model, Double unitListPrice, int unitsInStock){
+    public Product(Long id, String productName, String manufacturer, String model, Double unitListPrice, int unitsInStock){
         super();
         this.id = id;
         this.productName = productName;
@@ -27,11 +34,11 @@ public class Product {
     }
 
     // getters and setters
-    public String getID(){
+    public Long getID(){
         return id;
     }
 
-    public void setID(String id){
+    public void setID(Long id){
         this.id = id;
     }
 

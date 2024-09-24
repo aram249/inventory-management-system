@@ -1,44 +1,44 @@
 package com.ims.app.service;
 
 import com.ims.app.model.Product;
+import com.ims.app.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
 
-    private List<Product> products = new ArrayList<>(Arrays.asList(
-            new Product("1", "Xbox", "Microsoft", "Series-X", 500.00, 1000),
-                new Product("2", "Playstation 5", "Sony", "Pro", 800.00, 1200),
-                new Product("3", "Nintendo Switch", "Nintendo", "Switch", 299.99, 800)
-        ));
+    @Autowired
+    private ProductRepository productRepository;
 
     // Get All products
     public List<Product> getAllProducts(){
-        return products;
+        return (List<Product>) productRepository.findAll();
+    }
+
+    public Product getProductByID(Long id){
+        return productRepository.findById(id).orElse(null);
     }
 
     // POST method
     public void addProduct(Product product) {
-        products.add(product);
+        productRepository.save(product);
     }
 
     // UPDATE method
-    public void updateProduct(String id, Product product) {
-        for(int i = 0; i < products.size(); i++){
-            Product p = products.get(i);
-            if (p.getID().equals(id)){
-                products.set(i, product);
-                return;
-            }
-        }
+    public void updateProduct(Product product) {
+        productRepository.save(product);
     }
 
     // DELETE method
-    public void deleteProduct(String id) {
-        products.removeIf(p -> p.getID().equals(id));
+    public void deleteProduct(Long id) {
+        //products.removeIf(p -> p.getID().equals(id));
+        productRepository.deleteById(id);
     }
 }

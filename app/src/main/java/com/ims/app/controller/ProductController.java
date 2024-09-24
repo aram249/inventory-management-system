@@ -21,6 +21,12 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    // Get ALL by id
+    @RequestMapping("/product/{id}")
+    public Product getProductByID(@PathVariable Long id){
+        return productService.getProductByID(id);
+    }
+
     // Create POST request
     @RequestMapping(method = RequestMethod.POST, value = "/product")
     public void addProduct(@RequestBody Product product){
@@ -29,13 +35,13 @@ public class ProductController {
 
     // Create UPDATE request
     @RequestMapping(method = RequestMethod.PUT, value = "/product/{id}")
-    public void updateProduct(@RequestBody Product product, @PathVariable String id){
-        productService.updateProduct(id, product);
+    public void updateProduct(@RequestBody Product product, @PathVariable Long id){
+        productService.updateProduct(product);
     }
 
     // create DELETE request
     @RequestMapping(method = RequestMethod.DELETE, value = "/product/{id}")
-    public void deleteProduct(@PathVariable String id){
+    public void deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
     }
 }
