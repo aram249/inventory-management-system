@@ -4,6 +4,7 @@ import com.ims.app.model.Product;
 
 import com.ims.app.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -15,33 +16,28 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    // Get All Products
-    @RequestMapping("/product")
-    public List<Product> GetAllProducts(){
-        return productService.getAllProducts();
+    // POST request
+    @PostMapping("/products")
+    public Product saveProduct(@RequestBody Product product){
+        return productService.saveProduct(product);
     }
 
-    // Get ALL by id
-    @RequestMapping("/product/{id}")
-    public Product getProductByID(@PathVariable Long id){
-        return productService.getProductByID(id);
+    // READ request
+    @GetMapping("/products")
+    public List<Product> fetchProductList(){
+        return productService.fetchProductList();
     }
 
-    // Create POST request
-    @RequestMapping(method = RequestMethod.POST, value = "/product")
-    public void addProduct(@RequestBody Product product){
-        productService.addProduct(product);
+    // UPDATE request
+    @PutMapping("/products/{id}")
+    public Product updateProduct(@RequestBody Product product, @PathVariable("id") Long id){
+        return productService.updateProduct(product, id);
     }
 
-    // Create UPDATE request
-    @RequestMapping(method = RequestMethod.PUT, value = "/product/{id}")
-    public void updateProduct(@RequestBody Product product, @PathVariable Long id){
-        productService.updateProduct(product);
-    }
-
-    // create DELETE request
-    @RequestMapping(method = RequestMethod.DELETE, value = "/product/{id}")
-    public void deleteProduct(@PathVariable Long id){
-        productService.deleteProduct(id);
+    // DELETE request
+    @DeleteMapping("/products/{id}")
+    public String deleteProduct(@PathVariable("id") Long id){
+        productService.deleteProductByID(id);
+        return "Deleted Successfully";
     }
 }
